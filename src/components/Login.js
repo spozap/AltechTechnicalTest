@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Alert, StyleSheet, Text} from 'react-native';
 import {Button, TextInput, View} from 'react-native';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [userData, setUserData] = useState({email: '', password: ''});
 
   return (
@@ -26,7 +26,7 @@ const Login = () => {
       <Button
         color="green"
         title="Register"
-        onPress={() => Alert.alert(JSON.stringify(userData))}
+        onPress={() => navigation.push('Register')}
       />
     </View>
   );
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     width: '100%',
     borderRadius: 3,
+    marginVertical: 7,
   },
   loginBtn: {
     width: '100%',
