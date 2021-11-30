@@ -12,16 +12,10 @@ const Register = () => {
   });
 
   const register = async () => {
+    console.log(userData);
+
     try {
-      let users = await AsyncStorage.getItem('users');
-      if (users) {
-        users = JSON.parse(users);
-        console.log(users);
-      }
-      await AsyncStorage.setItem(
-        'users',
-        JSON.stringify(users ? [...users, userData] : [userData]),
-      );
+      await AsyncStorage.setItem('users', JSON.stringify(userData));
     } catch (err) {
       console.log(err);
     }

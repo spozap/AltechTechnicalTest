@@ -1,29 +1,25 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {Button, TextInput, View} from 'react-native';
-import {fetchUsers} from '../helpers/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Login = ({navigation}) => {
   const [userData, setUserData] = useState({email: '', password: ''});
   const [error, setError] = useState('');
-  const login = () => {
+  const login = async () => {
     if (!userData.email || !userData.password) {
       return;
     }
 
-    fetchUsers().then(data => {
-      const users = JSON.parse(data);
+    const users = await AsyncStorage.getItem('users');
+    const Users = JSON.parse(users);
+    if (
+      Users.email === userData.email &&
+      Users.password === userData.password
+    ) {
       console.log(users);
-      users.forEach(user => {
-        if (
-          user.email === userData.email &&
-          user.password === userData.password
-        ) {
-          console.log('valido');
-          navigation.push('Profile');
-        }
-      });
-      setError('User does not exist!');
-    });
+      navigation.push('Profile');
+    }
   };
 
   return (
