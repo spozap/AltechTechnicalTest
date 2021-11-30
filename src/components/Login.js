@@ -1,9 +1,30 @@
 import React, {useState} from 'react';
-import {Alert, StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {Button, TextInput, View} from 'react-native';
-
+import {fetchUsers} from '../helpers/auth';
 const Login = ({navigation}) => {
   const [userData, setUserData] = useState({email: '', password: ''});
+  const [error, setError] = useState('');
+  const login = () => {
+    if (!userData.email || !userData.password) {
+      return;
+    }
+
+    fetchUsers().then(data => {
+      const users = JSON.parse(data);
+      console.log(users);
+      users.forEach(user => {
+        if (
+          user.email === userData.email &&
+          user.password === userData.password
+        ) {
+          console.log('valido');
+          navigation.push('Profile');
+        }
+      });
+      setError('User does not exist!');
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -17,17 +38,14 @@ const Login = ({navigation}) => {
         style={styles.input}
         onChangeText={data => setUserData({...userData, password: data})}
       />
-      <Button
-        color="red"
-        title="Log in"
-        onPress={() => Alert.alert(JSON.stringify(userData))}
-      />
+      <Button color="red" title="Log in" onPress={() => login(userData)} />
       <Text style={styles.register}> Or </Text>
       <Button
         color="green"
         title="Register"
         onPress={() => navigation.push('Register')}
       />
+      <Text color="red">{error}</Text>
     </View>
   );
 };

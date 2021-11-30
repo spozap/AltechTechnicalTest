@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {TextInput, Button, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Register = () => {
   const [userData, setData] = useState({
@@ -9,6 +10,22 @@ const Register = () => {
     email: '',
     password: '',
   });
+
+  const register = async () => {
+    try {
+      let users = await AsyncStorage.getItem('users');
+      if (users) {
+        users = JSON.parse(users);
+        console.log(users);
+      }
+      await AsyncStorage.setItem(
+        'users',
+        JSON.stringify(users ? [...users, userData] : [userData]),
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -32,7 +49,7 @@ const Register = () => {
         style={styles.input}
         onChangeText={data => setData({...userData, password: data})}
       />
-      <Button title="Register" />
+      <Button title="Register" onPress={() => register()} />
     </View>
   );
 };
