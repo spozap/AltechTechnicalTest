@@ -1,35 +1,53 @@
-import React, {useContext} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {View, TextInput, StyleSheet, Button, Alert, Text} from 'react-native';
 import {UserContext} from '../context/authcontext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {saveUserData} from '../helpers/auth';
 
-const Profile = ({navigation}) => {
+const Profile = () => {
   const {user, setUser} = useContext(UserContext);
+  const [data, setData] = useState(user);
 
-  const logout = async () => {
-    await AsyncStorage.removeItem('users');
-    setUser(null);
+  const modifyUser = () => {
+    // Updating data on AsyncStorage and state
+    saveUserData(data);
+    setUser(data);
+    Alert.alert('User modified successfully!');
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}> Welcome back {user.name} </Text>
-      <Button title="Log out" onPress={() => logout()} />
+    <View>
+      <>
+        <Text>Username</Text>
+        <TextInput
+          style={styles.input}
+          value={data.name}
+          onChangeText={name => setData({...data, name: name})}
+        />
+      </>
+      <>
+        <Text>Surname</Text>
+        <TextInput
+          value={data.surname}
+          style={styles.input}
+          onChangeText={surname => setData({...data, surname: surname})}
+        />
+      </>
+      <>
+        <Text>Email</Text>
+
+        <TextInput value={data.email} style={styles.input} editable={false} />
+      </>
+
+      <Button title="Update user" onPress={() => modifyUser()} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  welcome: {
-    fontSize: 40,
-    fontWeight: '700',
-    textAlign: 'center',
-    marginVertical: 15,
+  input: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: 'gray',
   },
 });
 

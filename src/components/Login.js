@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {Button, TextInput, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserContext} from '../context/authcontext';
 
 const Login = ({navigation}) => {
   const [userData, setUserData] = useState({email: '', password: ''});
-  const [error, setError] = useState('');
+
+  const {setUser} = useContext(UserContext);
+
   const login = async () => {
     if (!userData.email || !userData.password) {
       return;
@@ -18,7 +21,7 @@ const Login = ({navigation}) => {
       Users.password === userData.password
     ) {
       console.log(users);
-      navigation.push('Profile');
+      setUser(Users);
     }
   };
 
@@ -32,6 +35,7 @@ const Login = ({navigation}) => {
       <TextInput
         placeholder="Password..."
         style={styles.input}
+        keyboardType="visible-password"
         onChangeText={data => setUserData({...userData, password: data})}
       />
       <Button color="red" title="Log in" onPress={() => login(userData)} />
@@ -41,7 +45,6 @@ const Login = ({navigation}) => {
         title="Register"
         onPress={() => navigation.push('Register')}
       />
-      <Text color="red">{error}</Text>
     </View>
   );
 };
