@@ -1,19 +1,20 @@
+// asdaada2342.3@gmail.com
 const isEmailValid = email => {
-  const regex = new RegExp(
-    "/^[a-zA-Z0-9][-_.+!#$%&'*/=?^`{|]{0,1}([a-zA-Z0-9][-_.+!#$%&'*/=?^`{|]{0,1})*[a-zA-Z0-9]@[a-zA-Z0-9][-.]{0,1}([a-zA-Z][-.]{0,1})*[a-zA-Z0-9].[a-zA-Z0-9]{1,}([.-]{0,1}[a-zA-Z]){0,}[a-zA-Z0-9]{0,}$/i",
-  );
+  const regex = new RegExp(/^[A-Za-z0-9+_.-]+@(.+)$/);
   return regex.test(email);
 };
 
-// Username can only contain letters and numbers, and must be 5+ chars long
-const isUsernameValid = username => {
-  const regex = '/^[a-zA-Z0-9]{5,}+$/';
+// Name or surname can just use alphabet letters
+const isNameOrSurnameValid = username => {
+  const regex = new RegExp(/^[A-Z]+$/i);
   return regex.test(username);
 };
 
-// Password must contain eight characters, with at least one letter and number
+// Password must contain eight characters, with at least one capital letter, number and special sign
 const isPasswordValid = password => {
-  const regex = '^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$';
+  const regex = new RegExp(
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+  );
   return regex.test(password);
 };
 
@@ -45,4 +46,14 @@ export const validateRegister = data => {
   if (!isPasswordValid(password)) {
     return false;
   }
+
+  if (!isNameOrSurnameValid(name)) {
+    return false;
+  }
+
+  if (!isNameOrSurnameValid(surname)) {
+    return false;
+  }
+
+  return true;
 };

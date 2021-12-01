@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {Alert, StyleSheet, Text} from 'react-native';
 import {Button, TextInput, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserContext} from '../context/authcontext';
@@ -16,20 +16,30 @@ const Login = ({navigation}) => {
 
     const users = await AsyncStorage.getItem('users');
     const Users = JSON.parse(users);
-    if (
-      Users.email === userData.email &&
-      Users.password === userData.password
-    ) {
-      console.log(users);
-      setUser(Users);
+
+    if (!Users) {
+      Alert.alert('User does not exist!');
+      return;
     }
+
+    if (
+      !(Users.email === userData.email && Users.password === userData.password)
+    ) {
+      Alert.alert('Invalid username or password');
+      return;
+    }
+
+    console.log(users);
+    setUser(Users);
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.login}> Login </Text>
       <TextInput
         placeholder="Email..."
         style={styles.input}
+        keyboardType="email-address"
         onChangeText={data => setUserData({...userData, email: data})}
       />
       <TextInput
@@ -69,6 +79,12 @@ const styles = StyleSheet.create({
   },
   register: {
     textAlign: 'center',
+  },
+  login: {
+    fontSize: 40,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 20,
   },
 });
 

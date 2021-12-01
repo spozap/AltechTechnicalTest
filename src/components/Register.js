@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {TextInput, Button, View} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
+import {TextInput, Button, View, Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {validateRegister} from '../helpers/validations';
+import {INVALID_REGISTRATION_MESSAGE} from '../helpers/constants';
 
 const Register = () => {
   const [userData, setData] = useState({
@@ -12,10 +14,14 @@ const Register = () => {
   });
 
   const register = async () => {
-    console.log(userData);
+    if (!validateRegister(userData)) {
+      Alert.alert('Invalid register data!', INVALID_REGISTRATION_MESSAGE);
+      return;
+    }
 
     try {
       await AsyncStorage.setItem('users', JSON.stringify(userData));
+      Alert.alert('User registered successfully!');
     } catch (err) {
       console.log(err);
     }
@@ -23,6 +29,8 @@ const Register = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.register}> Register </Text>
+
       <TextInput
         placeholder="Name.."
         style={styles.input}
@@ -36,6 +44,7 @@ const Register = () => {
       <TextInput
         placeholder="Email..."
         style={styles.input}
+        keyboardType="email-address"
         onChangeText={data => setData({...userData, email: data})}
       />
       <TextInput
@@ -59,6 +68,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     marginVertical: 5,
+  },
+  register: {
+    fontSize: 40,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 20,
   },
 });
 
