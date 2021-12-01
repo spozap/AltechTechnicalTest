@@ -51,6 +51,8 @@ const Register = ({navigation}) => {
       <TextInput
         placeholder="Password..."
         style={styles.input}
+        keyboardType="default"
+        secureTextEntry={true}
         onChangeText={data => setData({...userData, password: data})}
       />
       <Button color="#5EBEC4" title="Register" onPress={() => register()} />

@@ -44,8 +44,9 @@ const Login = ({navigation}) => {
       />
       <TextInput
         placeholder="Password..."
+        keyboardType="default"
+        secureTextEntry={true}
         style={styles.input}
-        keyboardType="visible-password"
         onChangeText={data => setUserData({...userData, password: data})}
       />
       <Button color="#5EBEC4" title="Log in" onPress={() => login(userData)} />

@@ -11,6 +11,12 @@ const Profile = () => {
     // Updating data on AsyncStorage and state
     saveUserData(data);
     setUser(data);
+
+    if (data === user) {
+      Alert.alert('You must change the data to update it!');
+      return;
+    }
+
     Alert.alert('User modified successfully!');
   };
 
