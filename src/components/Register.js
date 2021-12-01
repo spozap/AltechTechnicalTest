@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {validateRegister} from '../helpers/validations';
 import {INVALID_REGISTRATION_MESSAGE} from '../helpers/constants';
 
-const Register = () => {
+const Register = ({navigation}) => {
   const [userData, setData] = useState({
     name: '',
     surname: '',
@@ -22,6 +22,7 @@ const Register = () => {
     try {
       await AsyncStorage.setItem('users', JSON.stringify(userData));
       Alert.alert('User registered successfully!');
+      navigation.navigate('Login');
     } catch (err) {
       console.log(err);
     }
