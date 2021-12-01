@@ -15,7 +15,8 @@ const Profile = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
+      <Text style={styles.header}>My profile</Text>
       <>
         <Text>Username</Text>
         <TextInput
@@ -38,16 +39,37 @@ const Profile = () => {
         <TextInput value={data.email} style={styles.input} editable={false} />
       </>
 
-      <Button title="Update user" onPress={() => modifyUser()} />
+      <Button
+        style={styles.submit}
+        title="Update user"
+        color="#5EBEC4"
+        onPress={() => modifyUser()}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    backgroundColor: '#FDF5DF',
+  },
   input: {
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: 'gray',
+    marginBottom: 5,
+  },
+  submit: {
+    borderRadius: 5,
+  },
+  header: {
+    fontSize: 40,
+    textAlign: 'center',
+    fontWeight: '800',
+    marginBottom: 20,
   },
 });
 

@@ -48,10 +48,10 @@ const Login = ({navigation}) => {
         keyboardType="visible-password"
         onChangeText={data => setUserData({...userData, password: data})}
       />
-      <Button color="red" title="Log in" onPress={() => login(userData)} />
+      <Button color="#5EBEC4" title="Log in" onPress={() => login(userData)} />
       <Text style={styles.register}> Or </Text>
       <Button
-        color="green"
+        color="#5EBEC4"
         title="Register"
         onPress={() => navigation.push('Register')}
       />
@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    marginHorizontal: 10,
+    backgroundColor: '#FDF5DF',
+    paddingHorizontal: 10,
   },
   input: {
     borderStyle: 'solid',
@@ -73,18 +74,17 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     marginVertical: 7,
   },
-  loginBtn: {
-    width: '100%',
-    color: 'red',
-  },
   register: {
     textAlign: 'center',
+    color: '#F92C85',
+    fontWeight: '500',
   },
   login: {
     fontSize: 40,
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 20,
+    color: '#F92C85',
   },
 });
 

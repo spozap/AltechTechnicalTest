@@ -53,7 +53,7 @@ const Register = ({navigation}) => {
         style={styles.input}
         onChangeText={data => setData({...userData, password: data})}
       />
-      <Button title="Register" onPress={() => register()} />
+      <Button color="#5EBEC4" title="Register" onPress={() => register()} />
     </View>
   );
 };
@@ -61,8 +61,9 @@ const Register = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 10,
+    paddingHorizontal: 10,
     justifyContent: 'center',
+    backgroundColor: '#FDF5DF',
   },
   input: {
     borderColor: 'grey',
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 20,
+    color: '#F92C85',
   },
 });
 
